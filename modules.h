@@ -1,4 +1,5 @@
 // twinkle.cpp
+void initTwinkle();
 void doTwinkle();
 void stopTwinkle();
 

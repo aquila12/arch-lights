@@ -18,9 +18,8 @@ ISR(WDT_vect) {
 void setup() {
   // put your setup code here, to run once:
   pinMode(LED, OUTPUT);
-  pinMode(STRING_A, OUTPUT);
-  pinMode(STRING_B, OUTPUT);
-  pinMode(STRING_Y, OUTPUT);
+
+  initTwinkle();
 
   analogReference(INTERNAL1V1);
 

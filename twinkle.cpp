@@ -1,5 +1,11 @@
 #include "hardware.h"
 
+void initTwinkle() {
+  pinMode(STRING_A, OUTPUT);
+  pinMode(STRING_B, OUTPUT);
+  pinMode(STRING_Y, OUTPUT);
+}
+
 inline static int intensity(int phase) {
   if(phase < 100) return phase;
   if(phase < 120) return 100;
