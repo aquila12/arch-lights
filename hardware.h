@@ -18,8 +18,11 @@ static const int
               pin14 = 8,  pin15 = 9;
 
 #define LED pin4
-#define STRING_A pin15
-#define STRING_B pin16
-#define STRING_Y pin13
-#define BATTERY pin23
-#define PANEL pin24
+#define STRING_YH pin9
+#define STRING_YL pin10
+#define STRING_AH pin11
+#define STRING_AL pin12
+#define STRING_BH pin13
+#define STRING_BL pin14
+#define BATTERY pin24
+#define PANEL pin25

@@ -1,9 +1,19 @@
 #include "hardware.h"
 
 void initTwinkle() {
-  pinMode(STRING_A, OUTPUT);
-  pinMode(STRING_B, OUTPUT);
-  pinMode(STRING_Y, OUTPUT);
+  pinMode(STRING_AL, OUTPUT);
+  pinMode(STRING_BL, OUTPUT);
+  pinMode(STRING_YL, OUTPUT);
+  digitalWrite(STRING_AL, 0);
+  digitalWrite(STRING_BL, 0);
+  digitalWrite(STRING_YL, 0);
+
+  pinMode(STRING_AH, OUTPUT);
+  pinMode(STRING_BH, OUTPUT);
+  pinMode(STRING_YH, OUTPUT);
+  digitalWrite(STRING_AH, 1);
+  digitalWrite(STRING_BH, 1);
+  digitalWrite(STRING_YH, 1);
 }
 
 inline static int intensity(int phase) {
@@ -32,25 +42,41 @@ void doTwinkle() {
 
   // Iterate between each set
   static int set = 0;
-  int off = set ? 1 : 0;
-  int on = set ? 0 : 1;
+  int off = set ? 0 : 1;
+  int on = set ? 1 : 0;
+
+  int a_pin = set ? STRING_AL : STRING_AH;
+  int b_pin = set ? STRING_BL : STRING_BH;
+  int y_pin = set ? STRING_YH : STRING_YL;
 
   int a = intensity(step[set]);
   int b = intensity(step[set + 2]);
 
+  // Turn on high or low side common (NB reverse polarity)
+  digitalWrite(y_pin, 1 - on);
+
   // Bitbang PWM
-  digitalWrite(STRING_Y, set);
   for(int i=100; i>0; --i) {
-    digitalWrite(STRING_A, (--a > 0) ? on : off);
-    digitalWrite(STRING_B, (--b > 0) ? on : off);
+    digitalWrite(a_pin, (--a > 0) ? on : off);
+    digitalWrite(b_pin, (--b > 0) ? on : off);
     delayMicroseconds(20);
   }
 
+  // Turn off high or low side common (NB reverse polarity)
+  digitalWrite(y_pin, 1 - off);
+  digitalWrite(a_pin, off);
+  digitalWrite(b_pin, off);
+
+  // Swap sets next time
   set = 1 - set;
 }
 
 void stopTwinkle() {
-  digitalWrite(STRING_Y, 0);
-  digitalWrite(STRING_A, 0);
-  digitalWrite(STRING_B, 0);
+  digitalWrite(STRING_AL, 0);
+  digitalWrite(STRING_BL, 0);
+  digitalWrite(STRING_YL, 0);
+
+  digitalWrite(STRING_AH, 1);
+  digitalWrite(STRING_BH, 1);
+  digitalWrite(STRING_YH, 1);
 }
