@@ -74,15 +74,15 @@ void loop() {
 
 static void setupWDT() {
   int t = wd_timeout;
-  int prescaler = ((t & 0x8) ? (1 << WDP3) : 0) + ((t & 0x4) ? (1 << WDP2) : 0) +
-                  ((t & 0x2) ? (1 << WDP1) : 0) + ((t & 0x1) ? (1 << WDP0) : 0);
+  int prescaler = ((t & 0x8) ? bit(WDP3) : 0) + ((t & 0x4) ? bit(WDP2) : 0) +
+                  ((t & 0x2) ? bit(WDP1) : 0) + ((t & 0x1) ? bit(WDP0) : 0);
 
-  int setting = prescaler | (1 << WDIE); // Interrupt mode only, no reset
+  int setting = prescaler | bit(WDIE); // Interrupt mode only, no reset
 
   cli();
   wdt_reset();
-  MCUSR &= ~(1 << WDRF); // Clear watchdog reset (it overrides WDE)
-  _WD_CONTROL_REG |= (1 << WDCE) | (1 << WDE); // Enable changes
+  MCUSR &= ~bit(WDRF); // Clear watchdog reset (it overrides WDE)
+  _WD_CONTROL_REG |= bit(WDCE) | bit(WDE); // Enable changes
   _WD_CONTROL_REG = setting;
   sei();
 }
