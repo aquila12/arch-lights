@@ -1,6 +1,13 @@
 #include "hardware.h"
 
-static const int battery_threshold = 200, dusk_threshold = 180, day_threshold = 220;
+// Measurements taken for this panel (from peak detector):
+// Full sun = 3V
+// Shaded, open sky, next to house wall = 1.75V
+// Indoors, door shut = 1.5V
+// Indoors, shaded from window = 1V
+
+// All in approx 10mV steps
+static const int battery_threshold = 300, dusk_threshold = 100, day_threshold = 150;
 
 static int battery = 0;
 static int panel = 0;
