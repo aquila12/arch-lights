@@ -14,3 +14,15 @@ void readSensors() {
   battery = analogRead(BATTERY);
   panel = analogRead(PANEL);
 }
+
+void dumpSensors() {
+  Serial.begin(9600);
+  Serial.print("Sensors");
+  Serial.print(" battery=");
+  Serial.print(battery);
+  Serial.print(" panel=");
+  Serial.print(panel);
+  Serial.println();
+  Serial.flush();
+  Serial.end();
+}

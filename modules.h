@@ -8,3 +8,4 @@ bool dusk();
 bool day();
 bool battery_empty();
 void readSensors();
+void dumpSensors();

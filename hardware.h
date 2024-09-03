@@ -26,3 +26,4 @@ static const int
 #define STRING_BL pin14
 #define BATTERY pin24
 #define PANEL pin25
+#define DEBUG pin15
