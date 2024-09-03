@@ -102,5 +102,10 @@ void doClock() {
 }
 
 void flash(int n) {
-  while(n--) { digitalWrite(LED, 1); delay(10); digitalWrite(LED, 0); delay(240); }
+  while(n--) {
+    digitalWrite(LED, 1);
+    delay(10);
+    digitalWrite(LED, 0);
+    if(n) delay(240);
+  }
 }
