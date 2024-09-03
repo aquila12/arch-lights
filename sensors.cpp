@@ -1,6 +1,6 @@
 #include "hardware.h"
 
-static const int battery_threshold = 300, dusk_threshold = 180, day_threshold = 220;
+static const int battery_threshold = 200, dusk_threshold = 180, day_threshold = 220;
 
 static int battery = 0;
 static int panel = 0;
