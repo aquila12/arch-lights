@@ -18,7 +18,7 @@ ISR(WDT_vect) {
 void setup() {
   // put your setup code here, to run once:
   pinMode(LED, OUTPUT);
-  pinMode(DEBUG, INPUT_PULLUP);
+  pinMode(DUMP_SENSORS, INPUT_PULLUP);
   pinMode(BOOT_MODE, INPUT_PULLUP);
 
   initTwinkle();
@@ -36,7 +36,7 @@ void loop() {
 
   readSensors();
 
-  if(digitalRead(DEBUG) == 0) dumpSensors();
+  if(digitalRead(DUMP_SENSORS) == 0) dumpSensors();
 
   int last = seconds;
   if(mode == MODE_LIGHTS) {

@@ -28,5 +28,5 @@ static const int
 #define BATTERY pin24
 #define PANEL pin25
 
-#define DEBUG pin15
+#define DUMP_SENSORS pin15
 #define BOOT_MODE pin16
