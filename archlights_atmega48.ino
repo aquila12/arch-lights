@@ -19,6 +19,7 @@ void setup() {
   // put your setup code here, to run once:
   pinMode(LED, OUTPUT);
   pinMode(DEBUG, INPUT_PULLUP);
+  pinMode(BOOT_MODE, INPUT_PULLUP);
 
   initTwinkle();
 
@@ -30,7 +31,7 @@ void setup() {
 }
 
 void loop() {
-  static time_of_day mode = MODE_DAY;
+  static time_of_day mode = digitalRead(BOOT_MODE) ? MODE_DAY : MODE_LIGHTS;
   time_of_day last_mode = mode;
 
   readSensors();
