@@ -69,7 +69,7 @@ void loop() {
   if(last_mode != mode) {
     flash(2 + mode);
     minutes = seconds = 0;
-  } else flash(1);
+  } else if(mode != MODE_LIGHTS) flash(1);
 }
 
 static void setupWDT() {
