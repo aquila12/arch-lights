@@ -98,11 +98,14 @@ static void setupWDT() {
 }
 
 static void enterSleep() {
-  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  ADCSRA = 0;
   power_all_disable();
+
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
   sleep_mode();
   // Continues after WDT
   power_all_enable();
+  ADCSRA = bit(ADEN);
 }
 
 void doClock() {
