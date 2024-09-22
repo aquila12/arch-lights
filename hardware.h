@@ -6,8 +6,8 @@ static const int
 /*    Rxd */  pin2 = 0,   pin27 = 18, // x
 /*    Txd */  pin3 = 1,   pin26 = 17, // x
 /*    LED */  pin4 = 2,   pin25 = 16, // PANEL
-/*      x */  pin5 = 3,   pin24 = 15, // BATTERY
-/* CHARGE */  pin6 = 4,   pin23 = 14, // x
+/* CHARGE */  pin5 = 3,   pin24 = 15, // BATTERY
+/*      x */  pin6 = 4,   pin23 = 14, // x
               /* Vcc */   /* GND */
               /* GND */   /* Aref */
 /*     YH */  pin9 = 20,  /* AVcc */
@@ -18,7 +18,7 @@ static const int
 /*     BL */  pin14 = 8,  pin15 = 9;  // DUMP_SENSORS
 
 #define LED pin4
-#define CHARGE pin6
+#define CHARGE pin5
 
 #define STRING_YH pin9
 #define STRING_YL pin10
