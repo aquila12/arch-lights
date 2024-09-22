@@ -7,5 +7,7 @@ void stopTwinkle();
 bool dusk();
 bool day();
 bool battery_empty();
+bool battery_chargeable();
+bool battery_full();
 void readSensors();
 void dumpSensors();

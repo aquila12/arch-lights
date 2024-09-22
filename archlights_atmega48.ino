@@ -18,6 +18,7 @@ ISR(WDT_vect) {
 void setup() {
   // put your setup code here, to run once:
   pinMode(LED, OUTPUT);
+  pinMode(CHARGE, INPUT);
   pinMode(DUMP_SENSORS, INPUT_PULLUP);
   pinMode(BOOT_MODE, INPUT_PULLUP);
 
@@ -37,6 +38,14 @@ void loop() {
   readSensors();
 
   if(digitalRead(DUMP_SENSORS) == 0) dumpSensors();
+
+  // Charge handling - pull to ground
+  if(battery_full()) {
+    pinMode(CHARGE, OUTPUT);
+    digitalWrite(CHARGE, 0);
+  } else if(battery_chargeable()) {
+    pinMode(CHARGE, INPUT);
+  }
 
   int last = seconds;
   if(mode == MODE_LIGHTS) {

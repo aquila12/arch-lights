@@ -6,15 +6,19 @@
 // Indoors, door shut = 1.5V
 // Indoors, shaded from window = 1V
 
-// All in approx 10mV steps
-static const int battery_threshold = 300, dusk_threshold = 100, day_threshold = 150;
+// All thresholds in approx 10mV steps
 
 static int battery = 0;
 static int panel = 0;
 
+static const int dusk_threshold = 100, day_threshold = 150;
 bool dusk() { return (panel < dusk_threshold); }
 bool day() { return (panel > day_threshold); }
-bool battery_empty() { return (battery < battery_threshold); }
+
+static const int empty_threshold = 300, full_threshold = 470, charge_threshold = 390;
+bool battery_empty() { return (battery < empty_threshold); }
+bool battery_full() { return (battery > full_threshold); }
+bool battery_chargeable() { return (battery < charge_threshold); }
 
 void readSensors() {
   // 1024 = 10.24V
