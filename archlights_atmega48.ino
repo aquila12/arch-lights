@@ -16,7 +16,7 @@ static int16_t light_mins = 0;
 
 ISR(WDT_vect) {
   seconds += tick_rate;
-  while(seconds >= 60) { minutes += 1; seconds -= 60; }
+  while(seconds >= 60) { minutes += 1; mode_mins += 1; seconds -= 60; }
 }
 
 void setup() {
