@@ -65,7 +65,12 @@ void loop() {
   // FSM
   switch(mode) {
     case MODE_DAY:
-    if(dusk()) mode = MODE_DUSK;
+    if(dusk()) {
+      mode = MODE_DUSK;
+      if(night_mins < 480) light_mins = 120;  // Min 2h
+      else light_mins = night_mins / 2 - 120; // About 2h before solar midnight
+      minutes = 0;
+    }
     break;
 
     case MODE_DUSK:
@@ -79,27 +84,18 @@ void loop() {
     break;
 
     case MODE_NIGHT:
-    if(mode_mins > 240 && day()) mode = MODE_DAY;
+    if(mode_mins > 240 && day()) {
+      mode = MODE_DAY;
+      night_mins = minutes;
+      EEPROM.update(0, night_mins);
+      minutes = 0;
+    }
     break;
   }
 
   if(last_mode != mode) {
     flash(2 + mode);
     mode_mins = 0;
-
-    switch(mode) {
-      case MODE_DAY:
-      night_mins = minutes;
-      EEPROM.update(0, night_mins);
-      minutes = 0;
-      break;
-
-      case MODE_DUSK:
-      if(night_mins < 480) light_mins = 120;  // Min 2h
-      else light_mins = night_mins / 2 - 120; // About 2h before solar midnight
-      minutes = 0;
-      break;
-    }
   } else if(mode != MODE_LIGHTS) flash(1);
 }
 
