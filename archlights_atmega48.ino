@@ -108,15 +108,6 @@ static void enterSleep() {
   ADCSRA = bit(ADEN);
 }
 
-void doClock() {
-  static unsigned int last = seconds;
-  if(last == seconds) return;
-  last = seconds;
-
-  if(seconds > 0) flash((seconds % 10) ? 1 : 2);
-  else { flash(3); }
-}
-
 void flash(int n) {
   while(n--) {
     digitalWrite(LED, 1);
