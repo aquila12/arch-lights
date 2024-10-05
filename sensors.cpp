@@ -27,13 +27,19 @@ void readSensors() {
 }
 
 void dumpSensors() {
+  char buf[5];
+  
   Serial.begin(9600);
   Serial.print("Sensors");
+
+  itoa(battery, buf, 10);
   Serial.print(" battery=");
-  Serial.print(battery);
+  Serial.print(buf);
+
+  itoa(panel, buf, 10);
   Serial.print(" panel=");
-  Serial.print(panel);
-  Serial.println();
+  Serial.print(buf);
+  Serial.print("\n");
   Serial.flush();
   Serial.end();
 }
