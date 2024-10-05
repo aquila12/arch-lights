@@ -1,4 +1,5 @@
 #include "avr/wdt.h"
+#include "EEPROM.h"
 #include "hardware.h"
 #include "modules.h"
 
@@ -9,6 +10,9 @@ static const int tick_rate = 8;
 
 static uint8_t seconds = 0;
 static uint16_t minutes = 0;
+static uint16_t mode_mins = 0;
+static uint16_t night_mins;
+static int16_t light_mins = 0;
 
 ISR(WDT_vect) {
   seconds += tick_rate;
@@ -27,6 +31,9 @@ void setup() {
   analogReference(INTERNAL1V1);
 
   setupWDT();
+
+  EEPROM.get(0, night_mins);
+  if(night_mins < 1 * 60 || night_mins > 23 * 60) night_mins = 12 * 60; // Default if data looks invalid
 
   flash(5);
 }
@@ -63,22 +70,36 @@ void loop() {
 
     case MODE_DUSK:
     if(day()) mode = MODE_DAY;
-    if(minutes > 5) mode = MODE_LIGHTS;
+    if(mode_mins > 5) mode = MODE_LIGHTS;
     break;
 
     case MODE_LIGHTS:
     if(battery_empty()) mode = MODE_NIGHT;
-    if(minutes > 120) mode = MODE_NIGHT;
+    if(mode_mins > light_mins) mode = MODE_NIGHT;
     break;
 
     case MODE_NIGHT:
-    if(minutes > 240 && day()) mode = MODE_DAY;
+    if(mode_mins > 240 && day()) mode = MODE_DAY;
     break;
   }
 
   if(last_mode != mode) {
     flash(2 + mode);
-    minutes = seconds = 0;
+    mode_mins = 0;
+
+    switch(mode) {
+      case MODE_DAY:
+      night_mins = minutes;
+      EEPROM.update(0, night_mins);
+      minutes = 0;
+      break;
+
+      case MODE_DUSK:
+      if(night_mins < 480) light_mins = 120;  // Min 2h
+      else light_mins = night_mins / 2 - 120; // About 2h before solar midnight
+      minutes = 0;
+      break;
+    }
   } else if(mode != MODE_LIGHTS) flash(1);
 }
 
